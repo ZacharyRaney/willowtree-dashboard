@@ -2,5 +2,5 @@
 To run using [Yarn](https://yarnpkg.com/):
 ```
 yarn install
-yarn start
+yarn server
 ```

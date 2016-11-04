@@ -50,4 +50,5 @@ gulp.task('watch', () => {
   gulp.watch(paths.allSrcJs, ['main']);
 });
 
+gulp.task('server', ['main', 'build']);
 gulp.task('default', ['watch', 'main']);
