@@ -39,4 +39,5 @@ jspm_packages
 
 /lib/
 /dist/client-bundle.js*
+/dist/manager/client-bundle.js*
 .vscode
