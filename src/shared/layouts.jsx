@@ -4,33 +4,23 @@ class Layouts extends React.Component {
   constructor() {
     super();
     this.defaultStyle = {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: '100%',
-      width: '100%',
+      grid: {
+        width: '960px',
+        height: '540px',
+        float: 'left',
+      },
+      div: {
+        overflow: 'hidden',
+        width: '1920px',
+      },
     };
     this.default = (
-      <table style={this.defaultStyle} >
-        <tr>
-          <td>
-            <div className="mod1" />
-          </td>
-          <td>
-            <div className="mod2" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div className="mod3" />
-          </td>
-          <td>
-            <div className="mod4" />
-          </td>
-        </tr>
-      </table>
+      <div style={this.defaultStyle.div}>
+        <div style={this.defaultStyle.grid} className="mod1" />
+        <div style={this.defaultStyle.grid} className="mod2" />
+        <div style={this.defaultStyle.grid} className="mod3" />
+        <div style={this.defaultStyle.grid} className="mod4" />
+      </div>
     );
   }
 }
