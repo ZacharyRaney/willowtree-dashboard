@@ -7,7 +7,8 @@ const textMod = new TextMod(
   'APP ANALYTICS',
   'Regal Cinemas',
   'In the month of September, 30 million people used the Regal Cinemas app. This is a 20% increase from the previous months of the summer.',
-  'http://placehold.it/960x540');
+  'http://placehold.it/960x540'
+);
 
 ReactDOM.render(layouts.default, document.querySelector('.table'));
 ReactDOM.render(textMod.getView(960, 540), document.querySelector('.mod1'));
