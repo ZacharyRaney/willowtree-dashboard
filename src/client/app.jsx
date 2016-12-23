@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Layouts from '../shared/layouts';
 import TextMod from '../shared/modules/textMod';
+import OnTapMod from '../shared/modules/onTapMod';
 
 const layouts = new Layouts();
 const textMod = {
@@ -15,13 +16,9 @@ const textMod = {
 
 ReactDOM.render(layouts.default, document.querySelector('.table'));
 ReactDOM.render(
-  <TextMod
-    name={textMod.name}
-    title={textMod.title}
-    body={textMod.body}
-    bgImg={textMod.bgImg}
-    width={textMod.width}
-    height={textMod.height}
+  <OnTapMod
+    width={960}
+    height={540}
   />,
   document.querySelector('.mod1')
 );
