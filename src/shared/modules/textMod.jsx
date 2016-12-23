@@ -1,20 +1,20 @@
 import React from 'react';
 
 class TextMod extends React.Component {
-  constructor(name, title, body, bgImg) {
-    super();
-    this.name = name;
-    this.title = title;
-    this.body = body;
-    this.bgImg = bgImg;
-  }
-  getView(width, height) {
-    const styles = {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: props.name,
+      title: props.title,
+      body: props.body,
+      bgImg: props.bgImg,
+    };
+    this.styles = {
       div: {
         alignItems: 'center',
-        backgroundImage: `url(${this.bgImg})`,
-        width,
-        height,
+        backgroundImage: `url(${this.state.bgImg})`,
+        width: props.width,
+        height: props.height,
         backgroundSize: 'stretch',
         overflow: 'hidden',
       },
@@ -32,13 +32,25 @@ class TextMod extends React.Component {
         textAlign: 'center',
       },
     };
+  }
+  render() {
     return (
-      <div style={styles.div}>
-        <h3 style={styles.name}>{this.name}</h3>
-        <h1 style={styles.title}>{this.title}</h1>
-        <h2 style={styles.body}>{this.body}</h2>
+      <div style={this.styles.div}>
+        <h3 style={this.styles.name}>{this.state.name}</h3>
+        <h1 style={this.styles.title}>{this.state.title}</h1>
+        <h2 style={this.styles.body}>{this.state.body}</h2>
       </div>
     );
   }
 }
+
+TextMod.propTypes = {
+  name: React.PropTypes.string,
+  title: React.PropTypes.string,
+  body: React.PropTypes.string,
+  bgImg: React.PropTypes.string,
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+};
+
 export default TextMod;

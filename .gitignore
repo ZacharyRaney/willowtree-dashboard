@@ -41,3 +41,4 @@ jspm_packages
 /dist/client-bundle.js*
 /dist/manager/client-bundle.js*
 .vscode
+/.secrets/
