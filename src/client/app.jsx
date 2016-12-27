@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Layouts from '../shared/layouts';
 import TextMod from '../shared/modules/textMod';
 import OnTapMod from '../shared/modules/onTapMod';
+import IdForm from './idForm';
 
 const layouts = new Layouts();
 const textMod = {
@@ -13,45 +14,66 @@ const textMod = {
   width: 960,
   height: 540,
 };
+let id; // eslint-disable-line
 
-ReactDOM.render(layouts.default, document.querySelector('.table'));
-ReactDOM.render(
-  <OnTapMod
-    width={960}
-    height={540}
+function run() {
+  ReactDOM.render(layouts.default, document.querySelector('.table'));
+  ReactDOM.render(
+    <OnTapMod
+      width={960}
+      height={540}
+    />,
+    document.querySelector('.mod1')
+  );
+  ReactDOM.render(
+    <TextMod
+      name={textMod.name}
+      title={textMod.title}
+      body={textMod.body}
+      bgImg={textMod.bgImg}
+      width={textMod.width}
+      height={textMod.height}
+    />,
+    document.querySelector('.mod2')
+  );
+  ReactDOM.render(
+    <TextMod
+      name={textMod.name}
+      title={textMod.title}
+      body={textMod.body}
+      bgImg={textMod.bgImg}
+      width={textMod.width}
+      height={textMod.height}
+    />,
+    document.querySelector('.mod3')
+  );
+  ReactDOM.render(
+    <TextMod
+      name={textMod.name}
+      title={textMod.title}
+      body={textMod.body}
+      bgImg={textMod.bgImg}
+      width={textMod.width}
+      height={textMod.height}
+    />,
+    document.querySelector('.mod4')
+  );
+}
+
+function idFormHandeler(event) {
+  localStorage.setItem('id', event.target.value);
+  id = localStorage.getItem('id');
+  ReactDOM.render(null, document.querySelector('.app'));
+  event.preventDefault();
+  run();
+}
+
+if (localStorage.getItem('id') == null) {
+  ReactDOM.render(<IdForm
+    callback={idFormHandeler}
   />,
-  document.querySelector('.mod1')
-);
-ReactDOM.render(
-  <TextMod
-    name={textMod.name}
-    title={textMod.title}
-    body={textMod.body}
-    bgImg={textMod.bgImg}
-    width={textMod.width}
-    height={textMod.height}
-  />,
-  document.querySelector('.mod2')
-);
-ReactDOM.render(
-  <TextMod
-    name={textMod.name}
-    title={textMod.title}
-    body={textMod.body}
-    bgImg={textMod.bgImg}
-    width={textMod.width}
-    height={textMod.height}
-  />,
-  document.querySelector('.mod3')
-);
-ReactDOM.render(
-  <TextMod
-    name={textMod.name}
-    title={textMod.title}
-    body={textMod.body}
-    bgImg={textMod.bgImg}
-    width={textMod.width}
-    height={textMod.height}
-  />,
-  document.querySelector('.mod4')
-);
+  document.querySelector('.app'));
+} else {
+  id = localStorage.getItem('id');
+  run();
+}
