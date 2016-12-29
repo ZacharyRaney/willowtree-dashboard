@@ -1,79 +1,57 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Layouts from '../shared/layouts';
 import TextMod from '../shared/modules/textMod';
 import OnTapMod from '../shared/modules/onTapMod';
 import IdForm from './idForm';
+import Config from './config';
 
-const layouts = new Layouts();
-const textMod = {
-  name: 'APP ANALYTICS',
-  title: 'Regal Cinemas',
-  body: 'In the month of September, 30 million people used the Regal Cinemas app. This is a 20% increase from the previous months of the summer.',
-  bgImg: 'http://placehold.it/960x540',
-  width: 960,
-  height: 540,
-};
-let id; // eslint-disable-line
+let id;
+let config;
 
+/**
+ * Renders modules to the DOM based on what
+ * was recieved by Config.
+ * Used as a callback function for config.
+ */
 function run() {
-  ReactDOM.render(layouts.default, document.querySelector('.table'));
-  ReactDOM.render(
-    <OnTapMod
-      width={960}
-      height={540}
-    />,
-    document.querySelector('.mod1')
-  );
-  ReactDOM.render(
-    <TextMod
-      name={textMod.name}
-      title={textMod.title}
-      body={textMod.body}
-      bgImg={textMod.bgImg}
-      width={textMod.width}
-      height={textMod.height}
-    />,
-    document.querySelector('.mod2')
-  );
-  ReactDOM.render(
-    <TextMod
-      name={textMod.name}
-      title={textMod.title}
-      body={textMod.body}
-      bgImg={textMod.bgImg}
-      width={textMod.width}
-      height={textMod.height}
-    />,
-    document.querySelector('.mod3')
-  );
-  ReactDOM.render(
-    <TextMod
-      name={textMod.name}
-      title={textMod.title}
-      body={textMod.body}
-      bgImg={textMod.bgImg}
-      width={textMod.width}
-      height={textMod.height}
-    />,
-    document.querySelector('.mod4')
-  );
+  let i = 1;
+  ReactDOM.render(config.layout, document.querySelector('.table'));
+
+  for (const module of config.modules) {
+    switch (module.type) { // Add new modules here
+      case 'OnTapMod':
+        ReactDOM.render(
+          <OnTapMod
+            width={module.props.width}
+            height={module.props.height}
+          />,
+          document.querySelector(`.mod${i}`)
+        );
+        break;
+      case 'TextMod':
+        ReactDOM.render(
+          <TextMod
+            name={module.props.name}
+            title={module.props.title}
+            body={module.props.body}
+            bgImg={module.props.bgImg}
+            width={module.props.width}
+            height={module.props.height}
+          />,
+          document.querySelector(`.mod${i}`)
+        );
+        break;
+      default:
+        break;
+    }
+    i += 1;
+  }
 }
 
-function idFormHandeler(event) {
-  localStorage.setItem('id', event.target.value);
-  id = localStorage.getItem('id');
-  ReactDOM.render(null, document.querySelector('.app'));
-  event.preventDefault();
-  run();
-}
-
-if (localStorage.getItem('id') == null) {
-  ReactDOM.render(<IdForm
-    callback={idFormHandeler}
-  />,
-  document.querySelector('.app'));
+if (localStorage.getItem('id') == null) { // Do we already have the id saved?
+  ReactDOM.render(<IdForm />, document.querySelector('.app'));
 } else {
   id = localStorage.getItem('id');
-  run();
+  config = new Config(id);
+  config.load(run);
 }
