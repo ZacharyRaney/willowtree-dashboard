@@ -12,9 +12,12 @@ class ModForm extends React.Component {
     this.state = {
       layout: '',
       selectedMod: 0,
+      props: {},
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -35,7 +38,28 @@ class ModForm extends React.Component {
   handleClick(e) {
     this.setState({
       selectedMod: (e.target.id - 1),
+      props: this.modules[e.target.id - 1].props,
     });
+  }
+
+  handleChange(e) {
+    const tempState = this.state.props;
+    tempState[e.target.id] = e.target.value;
+    this.setState({
+      props: tempState,
+    });
+  }
+
+  handleSubmit(e) {
+    this.modules[this.state.selectedMod] = {
+      type: this.modules[this.state.selectedMod].type,
+      props: this.state.props,
+    };
+    e.preventDefault();
+    $.post('/screen/all/update', {
+      modules: this.modules,
+      layout: this.state.layout,
+    }, 'json');
   }
 
   /**
@@ -56,8 +80,9 @@ class ModForm extends React.Component {
               <input
                 type="text"
                 className="form-control"
-                id="InputName"
-                placeholder={this.modules[this.state.selectedMod].props.name}
+                id="name"
+                value={this.state.props.name}
+                onChange={this.handleChange}
               />
             </div>
             <div className="form-group">
@@ -65,8 +90,9 @@ class ModForm extends React.Component {
               <input
                 type="text"
                 className="form-control"
-                id="InputTitle"
-                placeholder={this.modules[this.state.selectedMod].props.title}
+                id="title"
+                value={this.state.props.title}
+                onChange={this.handleChange}
               />
             </div>
             <div className="form-group">
@@ -74,8 +100,9 @@ class ModForm extends React.Component {
               <textarea
                 type="text"
                 className="form-control"
-                id="InputBody"
-                placeholder={this.modules[this.state.selectedMod].props.body}
+                id="body"
+                value={this.state.props.body}
+                onChange={this.handleChange}
                 rows="3"
               />
             </div>
@@ -84,8 +111,9 @@ class ModForm extends React.Component {
               <input
                 type="url"
                 className="form-control"
-                id="InputBgImg"
-                placeholder={this.modules[this.state.selectedMod].props.bgImg}
+                id="bgImg"
+                value={this.state.props.bgImg}
+                onChange={this.handleChange}
               />
             </div>
           </div>
@@ -129,19 +157,17 @@ class ModForm extends React.Component {
 
   render() {
     return (
-      <Form>
+      <Form onSubmit={this.handleSubmit}>
         {this.buttonLayout()}
         <FormGroup controlId="formControlSelect">
           <ControlLabel>Module</ControlLabel>
           <FormControl componentClass="select" placeholder="Text">
-            <option value="text">Text</option>
-            <option value="ontap">OnTap</option>
+            <option value="TextMod">Text</option>
+            <option value="OnTapMod">OnTap</option>
           </FormControl>
         </FormGroup>
         {this.formControls()}
-        <button type="submit" className="btn btn-default">
-          Save
-        </button>
+        <input type="submit" value="Save" className="btn btn-default" />
       </Form>
     );
   }
