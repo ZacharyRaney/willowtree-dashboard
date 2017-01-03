@@ -17,10 +17,10 @@ class Config {
     $.getJSON(`/screen/${this.id}/data`, (data) => {
       switch (data.layout) {
         case 'default':
-          this.layout = this.layouts.default;
+          this.layout = this.layouts.default.layout;
           break;
         default:
-          this.layout = this.layouts.default;
+          this.layout = this.layouts.default.layout;
           break;
       }
       for (const mods of data.modules) {
