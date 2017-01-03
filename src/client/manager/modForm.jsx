@@ -140,10 +140,10 @@ class ModForm extends React.Component {
             <ButtonGroup>
               <ButtonGroup vertical>
                 <Button id={1} onClick={this.handleClick}>1</Button>
-                <Button id={2} onClick={this.handleClick}>2</Button>
+                <Button id={3} onClick={this.handleClick}>3</Button>
               </ButtonGroup>
               <ButtonGroup vertical>
-                <Button id={3} onClick={this.handleClick}>3</Button>
+                <Button id={2} onClick={this.handleClick}>2</Button>
                 <Button id={4} onClick={this.handleClick}>4</Button>
               </ButtonGroup>
             </ButtonGroup>
