@@ -167,21 +167,34 @@ class ModForm extends React.Component {
     return (<div>btn err</div>);
   }
 
+  selectRender() {
+    if (this.state.selectedMod === -1) {
+      return (<div />);
+    }
+    const keys = Object.keys(this.moduleTypes);
+    const options = [];
+    for (const k of keys) {
+      options.push(<option value={k} key={k}>{k}</option>);
+    }
+    return (
+      <FormGroup controlId="formControlSelect">
+        <ControlLabel>Module</ControlLabel>
+        <FormControl
+          componentClass="select"
+          value={this.state.selectedType}
+          onChange={this.handleModuleChange}
+        >
+          {options}
+        </FormControl>
+      </FormGroup>
+    );
+  }
+
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
         {this.buttonLayout()}
-        <FormGroup controlId="formControlSelect">
-          <ControlLabel>Module</ControlLabel>
-          <FormControl
-            componentClass="select"
-            value={this.state.selectedType}
-            onChange={this.handleModuleChange}
-          >
-            <option value="TextMod">Text</option>
-            <option value="OnTapMod">OnTap</option>
-          </FormControl>
-        </FormGroup>
+        {this.selectRender()}
         {this.formControls()}
         <input type="submit" value="Save" className="btn btn-default" />
       </Form>
