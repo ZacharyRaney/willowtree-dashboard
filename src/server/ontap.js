@@ -23,6 +23,7 @@ class OnTap {
       this.authorize(JSON.parse(content));
     });
     this.response = {};
+    this.update = this.update.bind(this);
   }
 
   /**
@@ -66,7 +67,6 @@ class OnTap {
         oauth2Client.credentials = token; // eslint-disable-line no-param-reassign
         this.storeToken(token);
         this.auth = oauth2Client;
-        this.update();
       });
     });
   }
@@ -89,7 +89,6 @@ class OnTap {
       } else {
         oauth2Client.credentials = JSON.parse(token);
         this.auth = oauth2Client;
-        this.update();
       }
     });
   }
@@ -101,7 +100,7 @@ class OnTap {
   /**
    * Update the stored copy of the spreadsheet data
    */
-  update() {
+  update(req, res) {
     const sheets = google.sheets('v4');
     sheets.spreadsheets.values.get({
       auth: this.auth,
@@ -113,6 +112,7 @@ class OnTap {
         return;
       }
       this.setResponse(JSON.stringify(response));
+      res.send(this.response);
     });
   }
 }
