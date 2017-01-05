@@ -1,23 +1,33 @@
 import React from 'react';
 import $ from 'jquery';
 import { FormGroup, ControlLabel, FormControl, Button, ButtonGroup, Form } from 'react-bootstrap';
+import TextMod from '../../shared/modules/textMod';
+import OnTapMod from '../../shared/modules/onTapMod';
+import Layouts from '../../shared/layouts';
 
 class ModForm extends React.Component {
 
   constructor(props) {
     super(props);
 
+    this.layouts = new Layouts();
+    this.moduleTypes = {
+      TextMod,
+      OnTapMod,
+    };
     this.modules = [];
     this.id = props.id;
     this.state = {
       layout: '',
-      selectedMod: 0,
+      selectedMod: -1,
+      selectedType: '',
       props: {},
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleModuleChange = this.handleModuleChange.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +48,7 @@ class ModForm extends React.Component {
   handleClick(e) {
     this.setState({
       selectedMod: (e.target.id - 1),
+      selectedType: this.modules[e.target.id - 1].type,
       props: this.modules[e.target.id - 1].props,
     });
   }
@@ -62,6 +73,34 @@ class ModForm extends React.Component {
     }, 'json');
   }
 
+  handleModuleChange(e) {
+    if (this.modules[this.state.selectedMod].type !== e.target.value) {
+      const props = Object.keys(this.moduleTypes[e.target.value].propTypes);
+      const newModule = {
+        type: e.target.value,
+        props: {},
+      };
+      for (const p of props) {
+        if (p === 'width') {
+          newModule.props[p] = this.layouts[this.state.layout]
+          .modules[this.state.selectedMod]
+          .width;
+        } else if (p === 'height') {
+          newModule.props[p] = this.layouts[this.state.layout]
+          .modules[this.state.selectedMod]
+          .height;
+        } else {
+          newModule.props[p] = '';
+        }
+      }
+      this.modules[this.state.selectedMod] = newModule;
+      this.setState({
+        props: this.modules[this.state.selectedMod].props,
+        selectedType: e.target.value,
+      });
+    }
+  }
+
   /**
    * Returns form controls based on what type
    * of module is selected. New modules must
@@ -71,60 +110,33 @@ class ModForm extends React.Component {
     if (this.modules.length < 1) {
       return (<div>module length err</div>);
     }
-    switch (this.modules[this.state.selectedMod].type) {
-      case 'TextMod':
-        return (
-          <div>
-            <div className="form-group">
-              <label htmlFor="InputName">Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                value={this.state.props.name}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="InputName">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                value={this.state.props.title}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="InputName">Body</label>
-              <textarea
-                type="text"
-                className="form-control"
-                id="body"
-                value={this.state.props.body}
-                onChange={this.handleChange}
-                rows="3"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="InputName">Background URL</label>
-              <input
-                type="url"
-                className="form-control"
-                id="bgImg"
-                value={this.state.props.bgImg}
-                onChange={this.handleChange}
-              />
-            </div>
+    if (this.state.selectedMod === -1) {
+      return (<div>Select a slot</div>);
+    }
+
+    const keys = Object.keys(this.modules[this.state.selectedMod].props);
+    const response = [];
+    for (let i = 0; i < keys.length; i += 1) {
+      if (keys[i] !== 'width' && keys[i] !== 'height') {
+        response.push(
+          <div className="form-group" key={i}>
+            <label htmlFor="InputName">{`${keys[i]}`}</label>
+            <input
+              type="text"
+              className="form-control"
+              id={keys[i]}
+              value={this.state.props[`${keys[i]}`]}
+              onChange={this.handleChange}
+            />
           </div>
         );
-      case 'OnTapMod':
-        return (
-          <div>No options...</div>
-        );
-      default:
-        return (<div>Unknown module</div>);
+      }
     }
+    return (
+      <div>
+        {response}
+      </div>
+    );
   }
 
   /**
@@ -161,7 +173,11 @@ class ModForm extends React.Component {
         {this.buttonLayout()}
         <FormGroup controlId="formControlSelect">
           <ControlLabel>Module</ControlLabel>
-          <FormControl componentClass="select" placeholder="Text">
+          <FormControl
+            componentClass="select"
+            value={this.state.selectedType}
+            onChange={this.handleModuleChange}
+          >
             <option value="TextMod">Text</option>
             <option value="OnTapMod">OnTap</option>
           </FormControl>
