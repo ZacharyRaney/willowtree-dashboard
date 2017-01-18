@@ -18,6 +18,28 @@ class ScreenDatabase {
     });
   }
 
+  requestList(req, res) { // eslint-disable-line class-methods-use-this
+    MongoClient.connect(DB_URL, (err, db) => {
+      if (err) throw err;
+      const collection = db.collection('screens');
+      const data = [];
+      collection.find({}).sort({ building: 1, floor: 1, room: 1, name: 1 }).forEach((doc) => {
+        data.push(
+          {
+            name: doc.name,
+            building: doc.building,
+            floor: doc.floor,
+            room: doc.room,
+          }
+        );
+      }, (error) => {
+        if (error) throw error;
+        res.json(data);
+        db.close();
+      });
+    });
+  }
+
   updateAll(req, res) { // eslint-disable-line class-methods-use-this
     MongoClient.connect(DB_URL, (err, db) => {
       if (err) throw err;

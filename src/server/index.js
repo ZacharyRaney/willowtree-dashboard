@@ -13,8 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('dist'));
 
 app.get('/ontap', onTap.update);
-
 app.get('/screen/:id/data', screenDatabase.request);
+app.get('/screen/all/list', screenDatabase.requestList);
 
 app.post('/screen/all/update', screenDatabase.updateAll);
 
