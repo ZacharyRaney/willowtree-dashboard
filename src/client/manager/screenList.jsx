@@ -7,8 +7,11 @@ class ScreenList extends React.Component {
     super(props);
 
     this.callback = props.callback;
+    this.buildings = [];
+    this.floors = [];
+    this.rooms = [];
     this.state = {
-      currentSelected: 'All',
+      currentSelected: 'all',
       screenMap: null,
       screenData: null,
     };
@@ -19,7 +22,7 @@ class ScreenList extends React.Component {
   componentDidMount() {
     $.getJSON('/screen/all/list', (data) => {
       const screens = new Map();
-      for (const s of data) {
+      for (const s of data) { // Create a multilevel map to keep track of building, floor, etc...
         if (screens.has(s.building)) {
           if (screens.get(s.building).has(s.floor)) {
             if (screens.get(s.building).get(s.floor).has(s.room)) {
@@ -39,6 +42,10 @@ class ScreenList extends React.Component {
           screens.get(s.building).get(s.floor).set(s.room, []);
           screens.get(s.building).get(s.floor).get(s.room).push(s.name);
         }
+        // Keep track of buildings, floors, and rooms
+        if (!this.buildings.includes(s.building)) { this.buildings.push(s.building); }
+        if (!this.floors.includes(s.floor)) { this.floors.push(s.floor); }
+        if (!this.rooms.includes(s.room)) { this.rooms.push(s.room); }
       }
       this.setState({
         screenMap: screens,
@@ -48,9 +55,21 @@ class ScreenList extends React.Component {
   }
 
   handleClick(e) {
-    this.callback(e.target.id);
+    if (this.buildings.includes(e.target.id)) {
+      this.callback(e.target.id, 'building');
+    } else if (this.floors.includes(e.target.id)) {
+      this.callback(e.target.id, 'floor');
+    } else if (this.rooms.includes(e.target.id)) {
+      this.callback(e.target.id, 'room');
+    } else {
+      this.callback(e.target.id, 'screen');
+    }
   }
 
+  /**
+   * Recursively creates a TreeView for the buildings,
+   * floors, rooms, and screens.
+   */
   renderList(map) {
     const result = [];
     if (map instanceof Array) {

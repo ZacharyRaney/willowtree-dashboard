@@ -10,13 +10,15 @@ class ModForm extends React.Component {
   constructor(props) {
     super(props);
 
+    this.id = props.id;
+    this.type = props.type;
+
     this.layouts = new Layouts();
-    this.moduleTypes = {
+    this.moduleTypes = { // Add new modules here
       TextMod,
       OnTapMod,
     };
     this.modules = [];
-    this.id = props.id;
     this.state = {
       layout: '',
       selectedMod: -1,
@@ -31,7 +33,42 @@ class ModForm extends React.Component {
   }
 
   componentDidMount() {
-    $.getJSON(`/screen/${this.id}/data`, (data) => {
+    let url = '';
+    if (this.type === 'screen') {
+      url = `/screen/${this.id}/data`;
+    } else {
+      url = `/screen/group/${this.type}/${this.id}/data`;
+    }
+    $.getJSON(url, (data) => {
+      for (const modules of data.modules) {
+        this.modules.push(modules);
+      }
+      this.setState({
+        layout: data.layout,
+      });
+    });
+  }
+
+  /**
+   * Used when the id is updated
+   */
+  componentWillReceiveProps(nextProps) {
+    this.modules = [];
+    this.id = nextProps.id;
+    this.type = nextProps.type;
+    this.setState({
+      layout: '',
+      selectedMod: -1,
+      selectedType: '',
+      props: {},
+    });
+    let url = '';
+    if (this.type === 'screen') {
+      url = `/screen/${this.id}/data`;
+    } else {
+      url = `/screen/group/${this.type}/${this.id}/data`;
+    }
+    $.getJSON(url, (data) => {
       for (const modules of data.modules) {
         this.modules.push(modules);
       }
@@ -67,7 +104,14 @@ class ModForm extends React.Component {
       props: this.state.props,
     };
     e.preventDefault();
-    $.post('/screen/all/update', {
+
+    let url = '';
+    if (this.type === 'screen') { // Are we updating a group?
+      url = `/screen/${this.id}/update`;
+    } else {
+      url = `/screen/group/${this.type}/${this.id}/update`;
+    }
+    $.post(url, {
       modules: this.modules,
       layout: this.state.layout,
     }, 'json');
@@ -81,7 +125,7 @@ class ModForm extends React.Component {
         props: {},
       };
       for (const p of props) {
-        if (p === 'width') {
+        if (p === 'width') { // Get the width from the layout sizes
           newModule.props[p] = this.layouts[this.state.layout]
           .modules[this.state.selectedMod]
           .width;
@@ -103,8 +147,7 @@ class ModForm extends React.Component {
 
   /**
    * Returns form controls based on what type
-   * of module is selected. New modules must
-   * be added here.
+   * of module is selected.
    */
   formControls() {
     if (this.modules.length < 1) {
@@ -167,7 +210,11 @@ class ModForm extends React.Component {
     return (<div>btn err</div>);
   }
 
-  selectRender() {
+  /**
+   * Renders the dropdown list of all availble modules
+   * that the user can select
+   */
+  selectModuleRender() {
     if (this.state.selectedMod === -1) {
       return (<div />);
     }
@@ -194,7 +241,7 @@ class ModForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         {this.buttonLayout()}
-        {this.selectRender()}
+        {this.selectModuleRender()}
         {this.formControls()}
         <input type="submit" value="Save" className="btn btn-default" />
       </Form>
@@ -205,6 +252,7 @@ class ModForm extends React.Component {
 
 ModForm.propTypes = {
   id: React.PropTypes.string,
+  type: React.PropTypes.string,
 };
 
 export default ModForm;

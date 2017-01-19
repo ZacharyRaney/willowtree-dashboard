@@ -7,7 +7,25 @@ class ScreenDatabase {
     MongoClient.connect(DB_URL, (err, db) => {
       if (err) throw err;
       const collection = db.collection('screens');
-      collection.findOne({ name: req.params.id }, (error, doc) => {
+      const params = ((req.params.id === 'all') ? { name: 'default' } : { name: req.params.id });
+      collection.findOne(params, (error, doc) => {
+        if (error) {
+          console.log(`Err on databse request: ${err}`);
+        } else {
+          res.json(doc);
+        }
+        db.close();
+      });
+    });
+  }
+
+  requestGroup(req, res) {  // eslint-disable-line class-methods-use-this
+    MongoClient.connect(DB_URL, (err, db) => {
+      if (err) throw err;
+      const collection = db.collection('screens');
+      const params = {};
+      params[req.params.group] = req.params.id;
+      collection.findOne(params, (error, doc) => {
         if (error) {
           console.log(`Err on databse request: ${err}`);
         } else {
@@ -45,6 +63,42 @@ class ScreenDatabase {
       if (err) throw err;
       const collection = db.collection('screens');
       collection.updateMany({}, {
+        $set: {
+          modules: req.body.modules,
+          layout: req.body.layout,
+        },
+      }, (error, r) => {
+        if (error) throw err;
+        res.send(`Success! Updated ${r.result.n} entries`);
+        db.close();
+      });
+    });
+  }
+
+  update(req, res) {  // eslint-disable-line class-methods-use-this
+    MongoClient.connect(DB_URL, (err, db) => {
+      if (err) throw err;
+      const collection = db.collection('screens');
+      collection.updateOne({ name: req.params.id }, {
+        $set: {
+          modules: req.body.modules,
+          layout: req.body.layout,
+        },
+      }, (error) => {
+        if (error) throw err;
+        res.send('Success!');
+        db.close();
+      });
+    });
+  }
+
+  updateGroup(req, res) { // eslint-disable-line class-methods-use-this
+    MongoClient.connect(DB_URL, (err, db) => {
+      if (err) throw err;
+      const collection = db.collection('screens');
+      const params = {};
+      params[req.params.group] = req.params.id;
+      collection.updateMany(params, {
         $set: {
           modules: req.body.modules,
           layout: req.body.layout,
