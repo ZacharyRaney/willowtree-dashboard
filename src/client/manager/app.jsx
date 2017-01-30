@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ModForm from './modForm';
 import ScreenList from './screenList';
-
+import NewScreen from './newScreen';
 
 function updateForm(id, type) {
-  ReactDOM.render(
-    <ModForm
-      id={id}
-      type={type}
-    />,
-    document.querySelector('.input')
-  );
+  if (id === 'new') {
+    ReactDOM.render(<NewScreen />, document.querySelector('.input'));
+  } else {
+    ReactDOM.render(
+      <ModForm
+        id={id}
+        type={type}
+      />,
+      document.querySelector('.input')
+    );
+  }
 }
 
 ReactDOM.render(

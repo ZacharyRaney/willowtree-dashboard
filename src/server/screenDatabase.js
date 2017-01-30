@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { DB_URL } from '../../.secrets/keys';
+import { DEFAULT_SCREEN } from './defaultScreen';
 
 class ScreenDatabase {
 
@@ -106,6 +107,32 @@ class ScreenDatabase {
       }, (error, r) => {
         if (error) throw err;
         res.send(`Success! Updated ${r.result.n} entries`);
+        db.close();
+      });
+    });
+  }
+
+  /**
+   * Adds a new screen to the database with the default
+   * layout and modules set in defaultScreen.js
+   */
+  newScreen(req, res) { // eslint-disable-line class-methods-use-this
+    if (!(req.body.name && req.body.building && req.body.floor && req.body.room)) {
+      res.status(500).send('Missing parameters');
+      return;
+    }
+    MongoClient.connect(DB_URL, (err, db) => {
+      if (err) throw err;
+      const collection = db.collection('screens');
+      const response = {
+        name: req.body.name,
+        building: req.body.building,
+        floor: req.body.floor,
+        room: req.body.room,
+      };
+      collection.insertOne(Object.assign(response, DEFAULT_SCREEN), (error) => {
+        if (error) throw err;
+        res.status(200).send(`Added ${req.body.name}`);
         db.close();
       });
     });

@@ -55,7 +55,9 @@ class ScreenList extends React.Component {
   }
 
   handleClick(e) {
-    if (this.buildings.includes(e.target.id)) {
+    if (e.target.id === 'new') {
+      this.callback(e.target.id, 'new');
+    } else if (this.buildings.includes(e.target.id)) {
       this.callback(e.target.id, 'building');
     } else if (this.floors.includes(e.target.id)) {
       this.callback(e.target.id, 'floor');
@@ -74,7 +76,7 @@ class ScreenList extends React.Component {
     const result = [];
     if (map instanceof Array) {
       map.forEach((val) => {
-        result.push(<a href={`#${val}`} className="node" id={val} onClick={this.handleClick}>{val}</a>);
+        result.push(<a href={`#${val}`} className="node" id={val} onClick={this.handleClick}>{val}<br /></a>);
       });
     } else if (map instanceof Map) {
       map.forEach((val, key) => {
@@ -93,6 +95,7 @@ class ScreenList extends React.Component {
     return (
       <div>
         {this.renderList(this.state.screenMap)}
+        <li><a href="#new" id="new" onClick={this.handleClick}>New Screen</a></li>
       </div>
     );
   }
