@@ -16,8 +16,8 @@ class OnTapMod extends React.Component {
     this.styles = {
       div: {
         alignItems: 'center',
-        width: props.width,
-        height: props.height,
+        width: '100%',
+        height: '100%',
         overflow: 'hidden',
       },
       title: {
@@ -74,8 +74,8 @@ class OnTapMod extends React.Component {
 }
 
 OnTapMod.propTypes = {
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
+  width: React.PropTypes.string,
+  height: React.PropTypes.string,
 };
 
 export default OnTapMod;
