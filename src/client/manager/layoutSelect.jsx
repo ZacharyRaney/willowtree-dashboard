@@ -4,6 +4,13 @@ class LayoutSelect extends React.Component {
   constructor(props) {
     super(props);
     this.callback = props.callback;
+
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick(e) {
+    e.preventDefault();
+    this.callback(e.target.id);
   }
 
   render() {
@@ -12,9 +19,16 @@ class LayoutSelect extends React.Component {
         <div className="container-fluid">
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav">
-              <button className="btn btn-default">
+              <button onClick={this.onClick} className="btn btn-default" id="default">
                 <img
-                  src="img/layoutTest.png"
+                  src="img/layoutDefault.png"
+                  className="img-responsive"
+                  alt="Test layout"
+                />
+              </button>
+              <button onClick={this.onClick} className="btn btn-default" id="longleft5">
+                <img
+                  src="img/layoutLongLeft5.png"
                   className="img-responsive"
                   alt="Test layout"
                 />
