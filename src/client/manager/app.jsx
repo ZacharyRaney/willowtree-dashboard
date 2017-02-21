@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ModForm from './modForm';
 import ScreenList from './screenList';
 import NewScreen from './newScreen';
+import LayoutSelect from './layoutSelect';
 
 function updateForm(id, type) {
   if (id === 'new') {
@@ -25,6 +26,8 @@ ReactDOM.render(
   />,
   document.querySelector('.input')
 );
+
+ReactDOM.render(<LayoutSelect />, document.querySelector('.layouts'));
 
 ReactDOM.render(
   <ScreenList
