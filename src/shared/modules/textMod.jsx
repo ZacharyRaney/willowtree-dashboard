@@ -13,8 +13,8 @@ class TextMod extends React.Component {
       div: {
         alignItems: 'center',
         backgroundImage: `url(${this.state.bgImg})`,
-        width: props.width,
-        height: props.height,
+        width: '100%',
+        height: '100%', // Make sure the background fits
         backgroundSize: 'stretch',
         overflow: 'hidden',
       },
@@ -49,8 +49,8 @@ TextMod.propTypes = {
   title: React.PropTypes.string,
   body: React.PropTypes.string,
   bgImg: React.PropTypes.string,
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
+  // width: React.PropTypes.string,
+  // height: React.PropTypes.string,
 };
 
 export default TextMod;

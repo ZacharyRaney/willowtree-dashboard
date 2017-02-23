@@ -50,32 +50,50 @@ class ModForm extends React.Component {
   }
 
   /**
-   * Used when the id is updated
+   * Used when the id is updated or the layout
    */
   componentWillReceiveProps(nextProps) {
-    this.modules = [];
-    this.id = nextProps.id;
-    this.type = nextProps.type;
-    this.setState({
-      layout: '',
-      selectedMod: -1,
-      selectedType: '',
-      props: {},
-    });
-    let url = '';
-    if (this.type === 'screen') {
-      url = `/screen/${this.id}/data`;
-    } else {
-      url = `/screen/group/${this.type}/${this.id}/data`;
-    }
-    $.getJSON(url, (data) => {
-      for (const modules of data.modules) {
-        this.modules.push(modules);
+    if (nextProps.layout) { // Updating the layout of the current screen
+      for (let i = this.modules.length; i < this.layouts[nextProps.layout].modules.length; i += 1) {
+        const newObject = {
+          type: 'TextMod',
+          props: {
+            name: 'New Module',
+            title: 'Please update!',
+            body: '',
+            bgImg: '',
+          },
+        };
+        this.modules.push(newObject); // Add the missing modules if size differs
       }
       this.setState({
-        layout: data.layout,
+        layout: nextProps.layout,
       });
-    });
+    } else { // Updating the currently selected screen
+      this.modules = [];
+      this.id = nextProps.id;
+      this.type = nextProps.type;
+      this.setState({
+        layout: '',
+        selectedMod: -1,
+        selectedType: '',
+        props: {},
+      });
+      let url = '';
+      if (this.type === 'screen') {
+        url = `/screen/${this.id}/data`;
+      } else {
+        url = `/screen/group/${this.type}/${this.id}/data`;
+      }
+      $.getJSON(url, (data) => {
+        for (const modules of data.modules) {
+          this.modules.push(modules);
+        }
+        this.setState({
+          layout: data.layout,
+        });
+      });
+    }
   }
 
   /**
@@ -200,6 +218,22 @@ class ModForm extends React.Component {
               <ButtonGroup vertical>
                 <Button id={2} onClick={this.handleClick}>2</Button>
                 <Button id={4} onClick={this.handleClick}>4</Button>
+              </ButtonGroup>
+            </ButtonGroup>
+          </FormGroup>
+        );
+      case 'longleft5':
+        return (
+          <FormGroup>
+            <ButtonGroup>
+              <ButtonGroup vertical>
+                <Button id={1} onClick={this.handleClick}>1</Button>
+                <Button id={3} onClick={this.handleClick}>3</Button>
+              </ButtonGroup>
+              <ButtonGroup vertical>
+                <Button id={2} onClick={this.handleClick}>2</Button>
+                <Button id={4} onClick={this.handleClick}>4</Button>
+                <Button id={5} onClick={this.handleClick}>5</Button>
               </ButtonGroup>
             </ButtonGroup>
           </FormGroup>

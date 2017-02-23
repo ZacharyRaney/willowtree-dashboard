@@ -19,6 +19,9 @@ class Config {
         case 'default':
           this.layout = this.layouts.default.layout;
           break;
+        case 'longleft5':
+          this.layout = this.layouts.longleft5.layout;
+          break;
         default:
           this.layout = this.layouts.default.layout;
           break;
