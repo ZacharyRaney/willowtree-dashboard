@@ -7,11 +7,11 @@ class OnTapMod extends React.Component {
     this.taps = [];
     this.state = {
       number: 1,
-      name: 'LOADING...',
-      location: '',
-      type: '',
-      abv: '',
-      description: '',
+      name: 'Bumper Crop 2015',
+      location: 'South Street Brewery',
+      type: 'Pale Double IPA',
+      abv: '8.3%',
+      description: '500 lbs. of fresh Nelson County Cascade hops layered on top of a spectacular pale double IPA.',
     };
     this.styles = {
       div: {
@@ -23,23 +23,50 @@ class OnTapMod extends React.Component {
       title: {
         fontSize: 20,
         textAlign: 'center',
+        color: '#124A55',
+        fontFamily: 'BlinkMacSystemFont',
+        fontWeight: '100',
+
       },
       tap: {
         fontSize: 20,
         textAlign: 'center',
         paddingTop: '60px',
+        color: '#252525',
+        margin: '',
+        display: '',
+        fontFamily: 'BlinkMacSystemFont',
+        fontWeight: '100',
+        textDecoration: 'underline',
       },
       name: {
         fontSize: 50,
         textAlign: 'center',
+        padding: '',
+        margin: '',
+        color: '#124A55',
+        fontFamily: 'BlinkMacSystemFont',
+        fontWeight: '600',
       },
       info: {
         fontSize: 30,
         textAlign: 'center',
+        padding: '',
+        margin: '',
+        color: '#124A55',
+        display: '',
+        fontFamily: 'BlinkMacSystemFont',
+        fontWeight: '300',
       },
       desc: {
         fontSize: 30,
         textAlign: 'center',
+        padding: '',
+        margin: '',
+        color: '#124A55',
+        display: '',
+        fontFamily: 'BlinkMacSystemFont',
+        fontWeight: '300',
       },
     };
   }
