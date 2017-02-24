@@ -1,25 +1,44 @@
 import React from 'react';
 
-class Layouts extends React.Component {
+class Layouts {
   constructor() {
-    super();
-    this.defaultStyle = {
-      grid: {
-        width: '960px',
-        height: '540px',
-        float: 'left',
+    this.default = {
+      style: {
+        grid: {
+          width: '960px',
+          height: '540px',
+          float: 'left',
+        },
+        div: {
+          overflow: 'hidden',
+          width: '1920px',
+        },
       },
-      div: {
-        overflow: 'hidden',
-        width: '1920px',
-      },
+      modules: [
+        {
+          width: 960,
+          height: 540,
+        },
+        {
+          width: 960,
+          height: 540,
+        },
+        {
+          width: 960,
+          height: 540,
+        },
+        {
+          width: 960,
+          height: 540,
+        },
+      ],
     };
-    this.default = (
-      <div style={this.defaultStyle.div}>
-        <div style={this.defaultStyle.grid} className="mod1" />
-        <div style={this.defaultStyle.grid} className="mod2" />
-        <div style={this.defaultStyle.grid} className="mod3" />
-        <div style={this.defaultStyle.grid} className="mod4" />
+    this.default.layout = (
+      <div style={this.default.style.div}>
+        <div style={this.default.style.grid} className="mod1" />
+        <div style={this.default.style.grid} className="mod2" />
+        <div style={this.default.style.grid} className="mod3" />
+        <div style={this.default.style.grid} className="mod4" />
       </div>
     );
   }
