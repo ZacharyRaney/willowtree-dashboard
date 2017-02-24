@@ -7,11 +7,11 @@ class OnTapMod extends React.Component {
     this.taps = [];
     this.state = {
       number: 1,
-      name: 'Bumper Crop 2015',
-      location: 'South Street Brewery',
-      type: 'Pale Double IPA',
-      abv: '8.3%',
-      description: '500 lbs. of fresh Nelson County Cascade hops layered on top of a spectacular pale double IPA.',
+      name: 'LOADING...',
+      location: '',
+      type: '',
+      abv: '',
+      description: '',
     };
     this.styles = {
       div: {
