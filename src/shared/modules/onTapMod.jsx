@@ -19,6 +19,8 @@ class OnTapMod extends React.Component {
         width: '100%',
         height: '100%',
         overflow: 'hidden',
+        backgroundColor: '#529DA8',
+        color: '#FFFFFF',
       },
       title: {
         fontSize: 20,

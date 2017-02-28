@@ -12,11 +12,12 @@ class TextMod extends React.Component {
     this.styles = {
       div: {
         alignItems: 'center',
-        backgroundImage: `url(${this.state.bgImg})`,
+        background: `url(${this.state.bgImg}) no-repeat`,
+        backgroundSize: '100% 100%',
         width: '100%',
         height: '100%', // Make sure the background fits
-        backgroundSize: 'stretch',
         overflow: 'hidden',
+        color: '#000000',
       },
       name: {
         fontSize: 20,
@@ -32,6 +33,12 @@ class TextMod extends React.Component {
         textAlign: 'center',
       },
     };
+    if (this.state.bgImg !== '') {
+      this.styles.div.color = '#FFFFFF';
+      this.styles.div.textShadow = '2px 2px #000000';
+    } else {
+      this.styles.div.color = '#000000';
+    }
   }
   render() {
     return (
@@ -49,8 +56,6 @@ TextMod.propTypes = {
   title: React.PropTypes.string,
   body: React.PropTypes.string,
   bgImg: React.PropTypes.string,
-  // width: React.PropTypes.string,
-  // height: React.PropTypes.string,
 };
 
 export default TextMod;
