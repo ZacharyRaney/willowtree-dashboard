@@ -1,2 +1,3 @@
 # Normalizing line endings
 *.js text eol=lf
+*.jsx text eol=lf
