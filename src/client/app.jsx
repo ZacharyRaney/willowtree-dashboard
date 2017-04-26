@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TextMod from '../shared/modules/textMod';
 import OnTapMod from '../shared/modules/onTapMod';
+import TwitterMod from '../shared/modules/twitterMod';
 import IdForm from './idForm';
 import Config from './config';
 
@@ -37,6 +38,14 @@ function run() {
             bgImg={module.props.bgImg}
             width={module.props.width}
             height={module.props.height}
+          />,
+          document.querySelector(`.mod${i}`)
+        );
+        break;
+      case 'TwitterMod':
+        ReactDOM.render(
+          <TwitterMod
+            link={module.props.link}
           />,
           document.querySelector(`.mod${i}`)
         );

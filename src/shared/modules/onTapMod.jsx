@@ -5,6 +5,7 @@ class OnTapMod extends React.Component {
   constructor(props) {
     super(props);
     this.taps = [];
+    this.timer = null;
     this.state = {
       number: 1,
       name: 'LOADING...',
@@ -30,6 +31,7 @@ class OnTapMod extends React.Component {
         fontSize: 20,
         textAlign: 'center',
         paddingTop: '60px',
+        textDecoration: 'underline',
       },
       name: {
         fontSize: 50,
@@ -44,21 +46,43 @@ class OnTapMod extends React.Component {
         textAlign: 'center',
       },
     };
+
+    this.updateDrink = this.updateDrink.bind(this);
   }
 
   componentDidMount() {
     $.getJSON('/ontap', (data) => {
       $.each(data.values, (key, val) => {
         this.taps.push(val);
-        this.setState({
-          number: key + 1,
-          name: this.taps[0][0],
-          location: this.taps[0][1],
-          type: this.taps[0][2],
-          abv: this.taps[0][3],
-          description: this.taps[0][4],
-        });
       });
+      this.setState({
+        number: 1,
+        name: this.taps[0][0],
+        location: this.taps[0][1],
+        type: this.taps[0][2],
+        abv: this.taps[0][3],
+        description: this.taps[0][4],
+      });
+
+      // Switches the currently displayed drink on a timer
+      this.timer = window.setInterval(this.updateDrink, 10000);
+    });
+  }
+
+  updateDrink() {
+    let num = 0;
+    if (this.state.number + 1 > this.taps.length) {
+      num = 1;
+    } else {
+      num = this.state.number + 1;
+    }
+    this.setState({
+      number: num,
+      name: this.taps[num - 1][0],
+      location: this.taps[num - 1][1],
+      type: this.taps[num - 1][2],
+      abv: this.taps[num - 1][3],
+      description: this.taps[num - 1][4],
     });
   }
 

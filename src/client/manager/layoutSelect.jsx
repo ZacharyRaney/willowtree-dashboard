@@ -33,6 +33,13 @@ class LayoutSelect extends React.Component {
                   alt="Test layout"
                 />
               </button>
+              <button onClick={this.onClick} className="btn btn-default" id="longleft4">
+                <img
+                  src="img/layoutLongLeft5.png"
+                  className="img-responsive"
+                  alt="Test layout"
+                />
+              </button>
             </ul>
           </div>
         </div>

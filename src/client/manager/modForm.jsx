@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { FormGroup, ControlLabel, FormControl, Button, ButtonGroup, Form } from 'react-bootstrap';
 import TextMod from '../../shared/modules/textMod';
 import OnTapMod from '../../shared/modules/onTapMod';
+import TwitterMod from '../../shared/modules/twitterMod';
 import Layouts from '../../shared/layouts';
 
 class ModForm extends React.Component {
@@ -17,6 +18,7 @@ class ModForm extends React.Component {
     this.moduleTypes = { // Add new modules here
       TextMod,
       OnTapMod,
+      TwitterMod,
     };
     this.modules = [];
     this.state = {
@@ -228,12 +230,31 @@ class ModForm extends React.Component {
             <ButtonGroup>
               <ButtonGroup vertical>
                 <Button id={1} onClick={this.handleClick}>1</Button>
-                <Button id={3} onClick={this.handleClick}>3</Button>
               </ButtonGroup>
               <ButtonGroup vertical>
                 <Button id={2} onClick={this.handleClick}>2</Button>
                 <Button id={4} onClick={this.handleClick}>4</Button>
+              </ButtonGroup>
+              <ButtonGroup vertical>
+                <Button id={3} onClick={this.handleClick}>3</Button>
                 <Button id={5} onClick={this.handleClick}>5</Button>
+              </ButtonGroup>
+            </ButtonGroup>
+          </FormGroup>
+        );
+      case 'longleft4':
+        return (
+          <FormGroup>
+            <ButtonGroup>
+              <ButtonGroup vertical>
+                <Button id={1} onClick={this.handleClick}>1</Button>
+              </ButtonGroup>
+              <ButtonGroup vertical>
+                <Button id={2} onClick={this.handleClick}>2</Button>
+                <Button id={4} onClick={this.handleClick}>4</Button>
+              </ButtonGroup>
+              <ButtonGroup vertical>
+                <Button id={3} onClick={this.handleClick}>3</Button>
               </ButtonGroup>
             </ButtonGroup>
           </FormGroup>

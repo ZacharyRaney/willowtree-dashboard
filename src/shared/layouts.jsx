@@ -91,6 +91,56 @@ class Layouts {
         <div style={this.longleft5.style.grid} className="mod5" />
       </div>
     );
+
+    this.longleft4 = {
+      style: {
+        tall: {
+          height: '100%',
+          width: '30%',
+          float: 'left',
+        },
+        long: {
+          height: '50%',
+          width: '70%',
+          float: 'left',
+        },
+        grid: {
+          width: '35%',
+          height: '50%',
+          float: 'left',
+        },
+        mainDiv: {
+          overflow: 'hidden',
+          height: `${window.innerHeight}px`,  // Force div to be window height
+        },
+      },
+      modules: [
+        { // This is the larger side module
+          width: '30%',
+          height: '100%',
+        },
+        {
+          width: '35%',
+          height: '50%',
+        },
+        {
+          width: '35%',
+          height: '50%',
+        },
+        { // Long module
+          width: '70%',
+          height: '50%',
+        },
+      ],
+    };
+    this.longleft4.layout = (
+      <div style={this.longleft4.style.mainDiv}>
+        <div style={this.longleft4.style.tall} className="mod1" />
+        <div style={this.longleft4.style.grid} className="mod2" />
+        <div style={this.longleft4.style.grid} className="mod3" />
+        <div style={this.longleft4.style.long} className="mod4" />
+      </div>
+    );
   }
 }
 
